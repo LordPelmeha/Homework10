@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Homework10
 {
-    internal class Dot
+    public class Dot
     {
-        public double X { get; set; }
-        public double Y { get; set; }
+        public double X { get; }
+        public double Y { get;}
         public Dot(double X,double Y)
         {
             this.X = X;

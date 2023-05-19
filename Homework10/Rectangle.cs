@@ -6,80 +6,47 @@ using System.Threading.Tasks;
 
 namespace Homework10
 {
-    internal class Rectangle
+    public class Rectangle
     {
-        private Dot _bottomLeft;
-        private Dot _upperLeft;
-        private Dot _upperRight;
-        private Dot _bottomRight;
         public Dot Center { get; }
-        public Dot BottomLeft
-        {
-            get
-            {
-                return _bottomLeft;
-            }
-            set
-            {
-                if (IsRectangele(_bottomLeft, _upperLeft, _upperRight, _bottomRight))
-                    _bottomLeft = value;
-                else
-                    throw new ArgumentException("Данные точки не образуют прямоугольник");
-            }
-        }
-        public Dot UpperLeft
-        {
-            get
-            {
-                return _upperLeft;
-            }
-            set
-            {
-                if (IsRectangele(_bottomLeft, _upperLeft, _upperRight, _bottomRight))
-                    _upperLeft = value;
-                else
-                    throw new ArgumentException("Данные точки не образуют прямоугольник");
-            }
-        }
-        public Dot UpperRight
-        {
-            get
-            {
-                return _upperRight;
-            }
-            set
-            {
-                if (IsRectangele(_bottomLeft, _upperLeft, _upperRight, _bottomRight))
-                    _upperRight = value;
-                else
-                    throw new ArgumentException("Данные точки не образуют прямоугольник");
-            }
-        }
-        public Dot BottomRight
-        {
-            get
-            {
-                return _bottomRight;
-            }
-            set
-            {
-                if (IsRectangele(_bottomLeft, _upperLeft, _upperRight, _bottomRight))
-                    _bottomRight = value;
-                else
-                    throw new ArgumentException("Данные точки не образуют прямоугольник");
-            }
-        }
+        public Dot BottomLeft { get; private set; }
+        public Dot UpperLeft { get; private set; }
+        public Dot UpperRight { get; private set; }
+        public Dot BottomRight { get; private set; }
 
-        private bool IsRectangele(Dot a, Dot b, Dot c, Dot d)
+        private bool IsRectangele()
         {
-            int ab = (int)(Math.PI / 180 * Math.Acos((a.X * b.X + a.Y * b.Y) / (Math.Sqrt(a.X * a.X + a.Y * a.Y) * Math.Sqrt(b.X * b.X + b.Y * b.Y))));
-            int bc = (int)(Math.PI / 180 * Math.Acos((c.X * b.X + c.Y * b.Y) / (Math.Sqrt(c.X * c.X + c.Y * c.Y) * Math.Sqrt(b.X * b.X + b.Y * b.Y))));
-            int cd = (int)(Math.PI / 180 * Math.Acos((c.X * d.X + c.Y * d.Y) / (Math.Sqrt(c.X * c.X + c.Y * c.Y) * Math.Sqrt(d.X * d.X + d.Y * d.Y))));
-            int ad = (int)(Math.PI / 180 * Math.Acos((a.X * d.X + a.Y * d.Y) / (Math.Sqrt(a.X * a.X + a.Y * a.Y) * Math.Sqrt(d.X * d.X + d.Y * d.Y))));
-            if (ab == bc && bc == cd && cd == ad && ad == 90)
+            // Координаты векторов прямоугольника, начиная с левого
+            Dot a = new Dot(UpperLeft.X - BottomLeft.X, UpperLeft.Y - BottomLeft.Y);
+            Dot b = new Dot(UpperRight.X - UpperLeft.X, UpperRight.Y - UpperLeft.Y);
+            Dot c = new Dot(BottomRight.X - UpperRight.X, BottomRight.Y - UpperRight.Y);
+            Dot d = new Dot(BottomLeft.X - BottomRight.X, BottomLeft.Y - BottomRight.Y);
+
+            // Углы между векторами в радианах
+            double ab = Math.Acos((a.X * b.X + a.Y * b.Y) / (Math.Sqrt(a.X * a.X + a.Y * a.Y) * Math.Sqrt(b.X * b.X + b.Y * b.Y)));
+
+            double bc = Math.Acos((c.X * b.X + c.Y * b.Y) / (Math.Sqrt(c.X * c.X + c.Y * c.Y) * Math.Sqrt(b.X * b.X + b.Y * b.Y)));
+
+            double cd = Math.Acos((c.X * d.X + c.Y * d.Y) / (Math.Sqrt(c.X * c.X + c.Y * c.Y) * Math.Sqrt(d.X * d.X + d.Y * d.Y)));
+
+            double ad = Math.Acos((a.X * d.X + a.Y * d.Y) / (Math.Sqrt(a.X * a.X + a.Y * a.Y) * Math.Sqrt(d.X * d.X + d.Y * d.Y)));
+
+            if (ab == bc && bc == cd && cd == ad)
                 return true;
             return false;
         }
+        public Rectangle(Dot BottomLeft, Dot UpperLeft, Dot UpperRight, Dot BottomRight)
+        {
+            this.BottomLeft = BottomLeft;
+            this.UpperLeft = UpperLeft;
+            this.UpperRight = UpperRight;
+            this.BottomRight = BottomRight;
+            this.Center = new Dot((UpperLeft.X + BottomRight.X) / 2, (UpperLeft.Y + BottomRight.Y) / 2);
 
+            if (!IsRectangele())
+                throw new ArgumentException("Данная фигура не является прямоугольником!");
+        }
+        public override string ToString() => $"{BottomLeft.X} {BottomLeft.Y}, {UpperLeft.X} {UpperLeft.Y}, {UpperRight.X} {UpperRight.Y}, " +
+            $"{BottomRight.X} {BottomRight.Y}, {Center.X} {Center.Y}";
     }
 }
