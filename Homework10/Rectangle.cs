@@ -13,15 +13,12 @@ namespace Homework10
         public Dot UpperLeft { get; private set; }
         public Dot UpperRight { get; private set; }
         public Dot BottomRight { get; private set; }
-
+        private Dot a { get; }
+        private Dot b { get; }
+        private Dot c { get; }
+        private Dot d { get; }
         private bool IsRectangele()
         {
-            // Координаты векторов прямоугольника, начиная с левого
-            Dot a = new Dot(UpperLeft.X - BottomLeft.X, UpperLeft.Y - BottomLeft.Y);
-            Dot b = new Dot(UpperRight.X - UpperLeft.X, UpperRight.Y - UpperLeft.Y);
-            Dot c = new Dot(BottomRight.X - UpperRight.X, BottomRight.Y - UpperRight.Y);
-            Dot d = new Dot(BottomLeft.X - BottomRight.X, BottomLeft.Y - BottomRight.Y);
-
             // Углы между векторами в радианах
             double ab = Math.Acos((a.X * b.X + a.Y * b.Y) / (Math.Sqrt(a.X * a.X + a.Y * a.Y) * Math.Sqrt(b.X * b.X + b.Y * b.Y)));
 
@@ -35,6 +32,10 @@ namespace Homework10
                 return true;
             return false;
         }
+        public double Square() => Math.Sqrt((a.X * a.X + a.Y * a.Y) * (b.X * b.X + b.Y * b.Y));
+
+        public double Perimeter() => (Math.Sqrt(a.X * a.X + a.Y * a.Y) + Math.Sqrt(b.X * b.X + b.Y * b.Y)) * 2;
+
         public Rectangle(Dot BottomLeft, Dot UpperLeft, Dot UpperRight, Dot BottomRight)
         {
             this.BottomLeft = BottomLeft;
@@ -42,6 +43,12 @@ namespace Homework10
             this.UpperRight = UpperRight;
             this.BottomRight = BottomRight;
             this.Center = new Dot((UpperLeft.X + BottomRight.X) / 2, (UpperLeft.Y + BottomRight.Y) / 2);
+
+            // Координаты векторов прямоугольника по часовой стрелке, начиная с левой стороны
+            this.a = new Dot(UpperLeft.X - BottomLeft.X, UpperLeft.Y - BottomLeft.Y);
+            this.b = new Dot(UpperRight.X - UpperLeft.X, UpperRight.Y - UpperLeft.Y);
+            this.c = new Dot(BottomRight.X - UpperRight.X, BottomRight.Y - UpperRight.Y);
+            this.d = new Dot(BottomLeft.X - BottomRight.X, BottomLeft.Y - BottomRight.Y);
 
             if (!IsRectangele())
                 throw new ArgumentException("Данная фигура не является прямоугольником!");
