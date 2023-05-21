@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,6 +37,11 @@ namespace Homework10
 
         public double Perimeter() => (Math.Sqrt(a.X * a.X + a.Y * a.Y) + Math.Sqrt(b.X * b.X + b.Y * b.Y)) * 2;
 
+        public double DistanceToCenter() => Math.Sqrt(
+            Math.Min(BottomLeft.X * BottomLeft.X + BottomLeft.Y * BottomLeft.Y,
+                Math.Min(UpperLeft.X * UpperLeft.X + UpperLeft.Y * UpperLeft.Y,
+                    Math.Min(UpperRight.X * UpperRight.X + UpperRight.Y * UpperRight.Y, BottomRight.X * BottomRight.X + BottomRight.Y * BottomRight.Y))));
+
         public Rectangle(Dot BottomLeft, Dot UpperLeft, Dot UpperRight, Dot BottomRight)
         {
             this.BottomLeft = BottomLeft;
@@ -54,6 +60,6 @@ namespace Homework10
                 throw new ArgumentException("Данная фигура не является прямоугольником!");
         }
         public override string ToString() => $"{BottomLeft.X} {BottomLeft.Y}, {UpperLeft.X} {UpperLeft.Y}, {UpperRight.X} {UpperRight.Y}, " +
-            $"{BottomRight.X} {BottomRight.Y}, {Center.X} {Center.Y}";
+            $"{BottomRight.X} {BottomRight.Y}";
     }
 }
