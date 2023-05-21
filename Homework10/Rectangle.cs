@@ -8,11 +8,11 @@ namespace Homework10
 {
     public class Rectangle
     {
-        public Dot Center { get; }
-        public Dot BottomLeft { get; private set; }
-        public Dot UpperLeft { get; private set; }
-        public Dot UpperRight { get; private set; }
-        public Dot BottomRight { get; private set; }
+        private Dot Center { get; }
+        private Dot BottomLeft { get; set; }
+        private Dot UpperLeft { get; set; }
+        private Dot UpperRight { get; set; }
+        private Dot BottomRight { get; set; }
         private Dot a { get; set; }
         private Dot b { get; set; }
         private Dot c { get; set; }
@@ -57,14 +57,26 @@ namespace Homework10
             Dot NotUpperLeft = new Dot(UpperLeft.X, UpperLeft.Y);
             Dot NotUpperRight = new Dot(UpperRight.X, UpperRight.Y);
             Dot NotBottomRight = new Dot(BottomRight.X, BottomRight.Y);
-            BottomLeft.X = (NotBottomLeft.X - Center.X) * cos - (NotBottomLeft.Y - Center.Y) * sin + Center.X;
-            BottomLeft.Y = (NotBottomLeft.X - Center.X) * sin + (NotBottomLeft.Y - Center.Y) * cos + Center.Y;
-            UpperLeft.X = (NotUpperLeft.X - Center.X) * cos - (NotUpperLeft.Y - Center.Y) * sin + Center.X;
-            UpperLeft.Y = (NotUpperLeft.X - Center.X) * sin + (NotUpperLeft.Y - Center.Y) * cos + Center.Y;
-            UpperRight.X = (NotUpperRight.X - Center.X) * cos - (NotUpperRight.Y - Center.Y) * sin + Center.X;
-            UpperRight.Y = (NotUpperRight.X - Center.X) * sin + (NotUpperRight.Y - Center.Y) * cos + Center.Y;
-            BottomRight.X = (NotBottomRight.X - Center.X) * cos - (NotBottomRight.Y - Center.Y) * sin + Center.X;
-            BottomRight.Y = (NotBottomRight.X - Center.X) * sin + (NotBottomRight.Y - Center.Y) * cos + Center.Y;
+
+            BottomLeft = new Dot((NotBottomLeft.X - Center.X) * cos - (NotBottomLeft.Y - Center.Y) * sin + Center.X,
+                (NotBottomLeft.X - Center.X) * sin + (NotBottomLeft.Y - Center.Y) * cos + Center.Y);
+
+            UpperLeft = new Dot((NotUpperLeft.X - Center.X) * cos - (NotUpperLeft.Y - Center.Y) * sin + Center.X,
+                (NotUpperLeft.X - Center.X) * sin + (NotUpperLeft.Y - Center.Y) * cos + Center.Y);
+
+            UpperRight = new Dot((NotUpperRight.X - Center.X) * cos - (NotUpperRight.Y - Center.Y) * sin + Center.X,
+                (NotUpperRight.X - Center.X) * sin + (NotUpperRight.Y - Center.Y) * cos + Center.Y);
+
+            BottomRight = new Dot((NotBottomRight.X - Center.X) * cos - (NotBottomRight.Y - Center.Y) * sin + Center.X,
+                (NotBottomRight.X - Center.X) * sin + (NotBottomRight.Y - Center.Y) * cos + Center.Y);
+            GetVectors();
+        }
+        public void ShiftXY(double x, double y)
+        {
+            BottomLeft = new Dot(BottomLeft.X + x, BottomLeft.Y + y);
+            UpperLeft = new Dot(UpperLeft.X + x, UpperLeft.Y + y);
+            UpperRight = new Dot(UpperRight.X + x, UpperRight.Y + y);
+            BottomRight = new Dot(BottomRight.X + x, BottomRight.Y + y);
             GetVectors();
         }
 

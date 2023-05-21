@@ -8,6 +8,8 @@
             Console.WriteLine($"{a}\n{a.Square()} {a.Perimeter()} {a.DistanceToCenter()}");
             a.Turn(90);
             Console.WriteLine($"{a}\n{a.Square()} {a.Perimeter()} {a.DistanceToCenter()}");
+            a.ShiftXY(1, 1);
+            Console.WriteLine($"{a}\n{a.Square()} {a.Perimeter()} {a.DistanceToCenter()}");
             //var b = new GeometrySimulator();
             //b.AddRectangle();
             //b.AddRectangle();
