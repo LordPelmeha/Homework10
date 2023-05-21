@@ -8,8 +8,8 @@ namespace Homework10
 {
     public class Dot
     {
-        public double X { get; }
-        public double Y { get; }
+        public double X { get; set; }
+        public double Y { get; set; }
         public Dot(double X, double Y)
         {
             this.X = X;
