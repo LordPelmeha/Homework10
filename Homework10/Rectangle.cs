@@ -44,7 +44,7 @@ namespace Homework10
             b = new Dot(UpperRight.X - UpperLeft.X, UpperRight.Y - UpperLeft.Y);
             c = new Dot(BottomRight.X - UpperRight.X, BottomRight.Y - UpperRight.Y);
             d = new Dot(BottomLeft.X - BottomRight.X, BottomLeft.Y - BottomRight.Y);
-            Console.WriteLine($"a: {a.X} {a.Y}, b: {b.X} {b.Y}, c: {c.X} {c.Y}, d: {d.X} {d.Y}");
+            //Console.WriteLine($"a: {a.X} {a.Y}, b: {b.X} {b.Y}, c: {c.X} {c.Y}, d: {d.X} {d.Y}");
         }
         /// <summary>
         /// Находит площадь четырёхугольника
@@ -102,7 +102,7 @@ namespace Homework10
         /// <summary>
         /// Увеличение высоты и ширины прямоугольника на заданные коэффициенты
         /// </summary>
-        public void Strech(double lengthhtScale = 1, double widthScale = 1)
+        public void Stretch(double lengthhtScale = 1, double widthScale = 1)
         {
             lengthhtScale -= 1;
             widthScale -= 1;
