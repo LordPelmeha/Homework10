@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MathTutor
 {
     /// <summary>
-    /// Класс для задания контрольной
+    /// Класс для      задания контрольной
     /// </summary>
     public class Task
     {
