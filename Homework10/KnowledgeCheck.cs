@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace Homework10
 {
-    public class Program
+    public class StartingTheProgram
     {
+
         public void StartKnowledgeCheck()
         {
-            Console.WriteLine("Добро пожаловать! Сейчас вы пройдете тест на ваши знания по выбранному Вами предмету!");
+            Console.WriteLine("Добро пожаловать! Сейчас вы пройдете тест на ваши знания по алгебре и немного геометрии!");
             TestGenerator test = new TestGenerator();
-            Console.WriteLine("Хорошо, сейчас Вы пройдете тест по алгебре\nСколько заданий Вы хотите в тесте?");
             test.LoadTasksFromFile("questions.txt");
-
             Console.WriteLine("Сколько заданий Вы хотите сгенерировать в одном варианте?");
             int numberOfTasks = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Сколько вариантов Вы хотите сгенерировать?");
@@ -43,16 +42,15 @@ namespace Homework10
                 }
             }
             else
-            {
-                Console.WriteLine("Не удалось сгенерировать варианты контрольной работы.");
-            }
+                throw new Exception("Не удалось сгенерировать варианты контрольной работы.");
         }
 
-        static bool CheckAnswer(TestQuestion question, string userAnswer)
+        static bool CheckAnswer(Task question, string userAnswer)
         {
             return userAnswer.Equals(question.Answer, StringComparison.OrdinalIgnoreCase);
         }
     }
+
     /// <summary>
     /// Класс для задания контрольной
     /// </summary>

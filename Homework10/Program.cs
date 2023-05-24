@@ -9,7 +9,8 @@ namespace Homework10
     {
         static void Main(string[] args)
         {
-            StartKnowledgeCheck();
+           StartingTheProgram stp = new StartingTheProgram();
+            stp.StartKnowledgeCheck();
         }
     }
 }
