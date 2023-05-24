@@ -4,61 +4,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MathTutor
+namespace Homework10
 {
-    public void StartKnowledgeCheck()
+    public class Program
     {
-        Console.WriteLine("Добро пожаловать! Сейчас вы пройдете тест на ваши знания по выбранному Вами предмету!");
-        TestGenerator test = new TestGenerator();
-        Console.WriteLine("Хорошо, сейчас Вы пройдете тест по алгебре\nСколько заданий Вы хотите в тесте?");
-        test.LoadTasksFromFile("questions.txt");
-
-        Console.WriteLine("Сколько заданий Вы хотите сгенерировать в одном варианте?");
-        int numberOfTasks = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Сколько вариантов Вы хотите сгенерировать?");
-        int numberOfVariants = Convert.ToInt32(Console.ReadLine());
-        var testVariants = test.GenerateTestVariants(numberOfTasks, numberOfVariants);
-
-        if (testVariants != null && testVariants.Count > 0)
+        public void StartKnowledgeCheck()
         {
-            Console.WriteLine("Контрольная работа:");
-            Console.WriteLine();
-            for (int i = 0; i < testVariants.Count; i++)
+            Console.WriteLine("Добро пожаловать! Сейчас вы пройдете тест на ваши знания по выбранному Вами предмету!");
+            TestGenerator test = new TestGenerator();
+            Console.WriteLine("Хорошо, сейчас Вы пройдете тест по алгебре\nСколько заданий Вы хотите в тесте?");
+            test.LoadTasksFromFile("questions.txt");
+
+            Console.WriteLine("Сколько заданий Вы хотите сгенерировать в одном варианте?");
+            int numberOfTasks = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Сколько вариантов Вы хотите сгенерировать?");
+            int numberOfVariants = Convert.ToInt32(Console.ReadLine());
+            var testVariants = test.GenerateTestVariants(numberOfTasks, numberOfVariants);
+
+            if (testVariants != null && testVariants.Count > 0)
             {
-                Console.WriteLine($"Вариант {i + 1}:");
+                Console.WriteLine("Контрольная работа:");
                 Console.WriteLine();
-                var testVariant = testVariants[i];
-                for (int j = 0; j < testVariant.Count; j++)
+                for (int i = 0; i < testVariants.Count; i++)
                 {
-                    var task = testVariant[j];
-                    Console.WriteLine($"Вопрос {j + 1}: {task.Question}");
-                    Console.Write("Ваш ответ: ");
-                    string userAnswer = Console.ReadLine();
-                    bool isCorrect = CheckAnswer(task, userAnswer);
-                    Console.WriteLine(isCorrect ? "Правильно!" : "Неправильно!");
+                    Console.WriteLine($"Вариант {i + 1}:");
                     Console.WriteLine();
+                    var testVariant = testVariants[i];
+                    for (int j = 0; j < testVariant.Count; j++)
+                    {
+                        var task = testVariant[j];
+                        Console.WriteLine($"Вопрос {j + 1}: {task.Question}");
+                        Console.Write("Ваш ответ: ");
+                        string userAnswer = Console.ReadLine();
+                        bool isCorrect = CheckAnswer(task, userAnswer);
+                        Console.WriteLine(isCorrect ? "Правильно!" : "Неправильно!");
+                        Console.WriteLine();
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("Не удалось сгенерировать варианты контрольной работы.");
+            }
         }
-        else
+
+        static bool CheckAnswer(TestQuestion question, string userAnswer)
         {
-            Console.WriteLine("Не удалось сгенерировать варианты контрольной работы.");
+            return userAnswer.Equals(question.Answer, StringComparison.OrdinalIgnoreCase);
         }
     }
-
-    public static bool CheckAnswer(Task task, string userAnswer)
-    {
-        return userAnswer.Equals(task.Answer, StringComparison.OrdinalIgnoreCase);
-    }
-
-
-
-
-    static bool CheckAnswer(TestQuestion question, string userAnswer)
-    {
-        return userAnswer.Equals(question.Answer, StringComparison.OrdinalIgnoreCase);
-    }
-
     /// <summary>
     /// Класс для задания контрольной
     /// </summary>
