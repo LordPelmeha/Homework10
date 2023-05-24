@@ -8,7 +8,10 @@ namespace Homework10
 {
     public class StartingTheProgram
     {
-
+        /// <summary>
+        /// Метод, вызываемый в основной программе, использующий все классы и методы 
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void StartKnowledgeCheck()
         {
             Console.WriteLine("Добро пожаловать! Сейчас вы пройдете тест на ваши знания по алгебре и немного геометрии!");
@@ -18,6 +21,7 @@ namespace Homework10
             int numberOfTasks = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Сколько вариантов Вы хотите сгенерировать?");
             int numberOfVariants = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Вводите без пробелов, и если Вам нужно ввести какую-то переменную, то вводите ее на английском\nУдачи!");
             var testVariants = test.GenerateTestVariants(numberOfTasks, numberOfVariants);
 
             if (testVariants != null && testVariants.Count > 0)
@@ -44,7 +48,12 @@ namespace Homework10
             else
                 throw new Exception("Не удалось сгенерировать варианты контрольной работы.");
         }
-
+        /// <summary>
+        /// Проверка правильности ответа на вопрос
+        /// </summary>
+        /// <param name="question"></param>
+        /// <param name="userAnswer"></param>
+        /// <returns></returns>
         static bool CheckAnswer(Task question, string userAnswer)
         {
             return userAnswer.Equals(question.Answer, StringComparison.OrdinalIgnoreCase);
@@ -111,7 +120,6 @@ namespace Homework10
                         variant.Add(taskBank[randomIndex]);
                     }
                 }
-
                 testVariants.Add(variant);
                 selectedIndices.Clear();
             }
@@ -156,11 +164,8 @@ namespace Homework10
         /// <returns></returns>
         public string GetHint(Task task)
         {
-            if (task.Answer.Length > 0)
-            {
+            if (task.Answer.ToLower()=="подсказка")
                 return task.Answer.Substring(0, 1);
-            }
-
             return "";
         }
 
