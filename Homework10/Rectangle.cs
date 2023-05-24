@@ -9,10 +9,10 @@ namespace Homework10
     public class Rectangle
     {
         private Dot Center { get; set; }
-        private Dot BottomLeft { get; set; }
-        private Dot UpperLeft { get; set; }
-        private Dot UpperRight { get; set; }
-        private Dot BottomRight { get; set; }
+        public Dot BottomLeft { get; private set; }
+        public Dot UpperLeft { get; private set; }
+        public Dot UpperRight { get; private set; }
+        public Dot BottomRight { get; private set; }
         private Dot a { get; set; }
         private Dot b { get; set; }
         private Dot c { get; set; }

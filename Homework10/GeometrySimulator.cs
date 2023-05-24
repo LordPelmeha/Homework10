@@ -60,6 +60,92 @@ namespace Homework10
             foreach (var x in AllRectangles)
                 Console.WriteLine(x);
         }
+        private void Predicate()
+        {
+            Console.WriteLine("Вам доступны следующие предикаты:");
+            Console.WriteLine("1) Вывести все прямоугольники из 1-й четверти");
+            Console.WriteLine("2) Вывести все прямоугольники из 2-й четверти");
+            Console.WriteLine("3) Вывести все прямоугольники из 3-й четверти");
+            Console.WriteLine("4) Вывести все прямоугольники из 4-й четверти");
+            Console.WriteLine("5) Вывести все прямоугольники, площадь которых больше некоторого числа");
+            Console.WriteLine("6) Вывести все прямоугольники, площадь которых меньше некоторого числа");
+            Console.WriteLine("7) Вывести все прямоугольники, периметр которых больше некоторого числа ");
+            Console.WriteLine("8) Вывести все прямоугольники, периметр которых меньше некоторого числа ");
+            Console.WriteLine("Введите номер придиката:");
+            string ans = Console.ReadLine();
+            while (ans.Length != 1 || !"12345678".Contains(ans))
+            {
+                Console.WriteLine("Вы пытаетесь поломать симулятор! Фу таким быть. Введите один из номеров предикатов, которые были вам предложены:");
+                ans = Console.ReadLine();
+            }
+            switch (ans)
+            {
+                case "1":
+                    {
+                        foreach (var x in AllRectangles)
+                            if (x.BottomLeft.X > 0 && x.BottomLeft.Y > 0 && x.UpperLeft.X > 0 && x.UpperLeft.Y > 0 &&
+                                x.UpperRight.X > 0 && x.UpperRight.Y > 0 && x.BottomRight.X > 0 && x.BottomRight.Y > 0)
+                                Console.WriteLine(x);
+                        break;
+                    }
+                case "2":
+                    {
+                        foreach (var x in AllRectangles)
+                            if (x.BottomLeft.X < 0 && x.BottomLeft.Y > 0 && x.UpperLeft.X < 0 && x.UpperLeft.Y > 0 &&
+                                x.UpperRight.X < 0 && x.UpperRight.Y > 0 && x.BottomRight.X < 0 && x.BottomRight.Y > 0)
+                                Console.WriteLine(x);
+                        break;
+                    }
+                case "3":
+                    {
+                        foreach (var x in AllRectangles)
+                            if (x.BottomLeft.X < 0 && x.BottomLeft.Y < 0 && x.UpperLeft.X < 0 && x.UpperLeft.Y < 0 &&
+                                x.UpperRight.X < 0 && x.UpperRight.Y < 0 && x.BottomRight.X < 0 && x.BottomRight.Y < 0)
+                                Console.WriteLine(x);
+                        break;
+                    }
+                case "4":
+                    {
+                        foreach (var x in AllRectangles)
+                            if (x.BottomLeft.X > 0 && x.BottomLeft.Y < 0 && x.UpperLeft.X > 0 && x.UpperLeft.Y < 0 &&
+                                x.UpperRight.X > 0 && x.UpperRight.Y < 0 && x.BottomRight.X > 0 && x.BottomRight.Y < 0)
+                                Console.WriteLine(x);
+                        break;
+                    }
+                case "5":
+                    {
+                        double num = GetNum();
+                        foreach (var x in AllRectangles)
+                            if (x.Square() > num)
+                                Console.WriteLine(x);
+                        break;
+                    }
+                case "6":
+                    {
+                        double num = GetNum();
+                        foreach (var x in AllRectangles)
+                            if (x.Square() < num)
+                                Console.WriteLine(x);
+                        break;
+                    }
+                case "7":
+                    {
+                        double num = GetNum();
+                        foreach (var x in AllRectangles)
+                            if (x.Perimeter() > num)
+                                Console.WriteLine(x);
+                        break;
+                    }
+                case "8":
+                    {
+                        double num = GetNum();
+                        foreach (var x in AllRectangles)
+                            if (x.Perimeter() < num)
+                                Console.WriteLine(x);
+                        break;
+                    }
+            }
+        }
         public void Start()
         {
             Console.WriteLine("Приветствую вас в симуляторе геометрии! Вам доступны следующие функции: ");
@@ -134,12 +220,12 @@ namespace Homework10
                         }
                     case "7":
                         {
-                            Console.WriteLine("Здесь ничего нет!");
+                            Predicate();
                             break;
                         }
                     case "8":
                         {
-                            Console.WriteLine("И здесь тоже ничего нет!");
+                            Console.WriteLine("Здесь ничего нет!");
                             break;
                         }
                     case "9":
