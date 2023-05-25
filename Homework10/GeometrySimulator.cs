@@ -45,7 +45,7 @@ namespace Homework10
             bool flag = true;
             while (flag)
             {
-                if (Regex.Match(n, @"^-?\d+\.?\d+$").Success)
+                if (Regex.Match(n, @"^-?\d+\.?(\d+)?$").Success)
                     flag = false;
                 else
                 {
@@ -53,7 +53,7 @@ namespace Homework10
                     n = Console.ReadLine();
                 }
             }
-            return double.Parse(n);
+            return double.Parse(n.Replace('.', ','));
         }
         private void PrintAllRectangles()
         {
