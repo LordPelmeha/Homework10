@@ -12,25 +12,38 @@ namespace Homework10
     {
         static void Main()
         {
-            var start = new GeometrySimulator().Start;
-            start();
-            //var a = new Rectangle(new Dot(0, 0), new Dot(0, 1), new Dot(1, 1), new Dot(1, 0));
-            //Console.WriteLine($"{a}\n{a.Square()} {a.Perimeter()} {a.DistanceToCenter()}");
-            //a.Stretch(2, 2);
-            //Console.WriteLine($"{a}\n{a.Square()} {a.Perimeter()} {a.DistanceToCenter()}");
-            //a.Turn(90);
-            //Console.WriteLine($"{a}\n{a.Square()} {a.Perimeter()} {a.DistanceToCenter()}");
-            //a.ShiftXY(1, 1);
-            //Console.WriteLine($"{a}\n{a.Square()} {a.Perimeter()} {a.DistanceToCenter()}");
-            //var b = new GeometrySimulator();
-            //b.AddRectangle();
-            //b.AddRectangle();
-            //b.MostRemoteFromCenter();
-           //StartingTheProgram stp = new StartingTheProgram();
-            //stp.StartKnowledgeCheck();
-            //var x = new FormulaSimulator();
-            //x.LoadFormulas("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\MemorizingTheory.txt");
-            //x.Training();
+            Console.WriteLine("Здравствуйте! Приветствую вас в симуляторе математики. Вам доступны следующие симуляторы:");
+            Console.WriteLine("1) Симулятор геометрии");
+            Console.WriteLine("2) Проверка знаний");
+            Console.WriteLine("3) Зазубривание теории");
+            string ans = Console.ReadLine();
+            while (ans.Length != 1 || !"12345678".Contains(ans))
+            {
+                Console.WriteLine("Вы пытаетесь поломать симулятор! Фу таким быть. Введите один из номеров предикатов, которые были вам предложены:");
+                ans = Console.ReadLine();
+            }
+            switch (ans)
+            {
+                case "1":
+                    {
+                        var start = new GeometrySimulator().Start;
+                        start();
+                        break;
+                    }
+                case "2":
+                    {
+                        StartingTheProgram stp = new StartingTheProgram();
+                        stp.StartKnowledgeCheck();
+                        break;
+                    }
+                case "3":
+                    {
+                        var x = new FormulaSimulator();
+                        x.LoadFormulas("MemorizingTheory.txt");
+                        x.Training();
+                        break;
+                    }
+            }
         }
     }
 }
