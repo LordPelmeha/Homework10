@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 namespace Homework10
 {
     internal class Program
@@ -23,6 +24,8 @@ namespace Homework10
             //b.AddRectangle();
             //b.AddRectangle();
             //b.MostRemoteFromCenter();
+           //StartingTheProgram stp = new StartingTheProgram();
+            //stp.StartKnowledgeCheck();
         }
     }
 }
