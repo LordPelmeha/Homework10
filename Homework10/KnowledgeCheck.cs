@@ -26,6 +26,7 @@ namespace Homework10
             Console.WriteLine("Вводите без пробелов, и если Вам нужно ввести какую-то переменную, то вводите ее на английском\nУдачи!\nЕсли у Вас возникнут проблемы с выполнением задания, напишите слово подсказка");
             Console.WriteLine();
             var testVariants = test.GenerateTestVariants(numberOfTasks, numberOfVariants);
+            ///test.SaveVariantsToFile(testVariants);
 
             if (testVariants != null && testVariants.Count > 0)
             {
