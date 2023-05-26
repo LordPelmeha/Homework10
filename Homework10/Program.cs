@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Text.RegularExpressions;
+
 namespace Homework10
 {
     internal class Program
@@ -26,6 +28,9 @@ namespace Homework10
             //b.MostRemoteFromCenter();
            //StartingTheProgram stp = new StartingTheProgram();
             //stp.StartKnowledgeCheck();
+            var x = new FormulaSimulator();
+            x.LoadFormulas("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\MemorizingTheory.txt");
+            x.Training();
         }
     }
 }
