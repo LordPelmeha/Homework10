@@ -43,7 +43,7 @@ namespace Homework10
                     for (int j = 0; j < testVariant.Count; j++)
                     {
                         var task = testVariant[j];
-                        Console.WriteLine($"Вопрос {j + 1}: {task.Question}");
+                        Console.WriteLine($"Задание {j + 1}: {task.Question}");
                         Console.Write("Ваш ответ: ");
                         string userAnswer = Console.ReadLine();
 
