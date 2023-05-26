@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Homework10
 {
     public class StartingTheProgram
     {
+
         /// <summary>
         /// Метод, вызываемый в основной программе, использующий все классы и методы 
         /// </summary>
@@ -21,13 +23,17 @@ namespace Homework10
             int numberOfTasks = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Сколько вариантов Вы хотите сгенерировать?");
             int numberOfVariants = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Вводите без пробелов, и если Вам нужно ввести какую-то переменную, то вводите ее на английском\nУдачи!");
+            Console.WriteLine("Вводите без пробелов, и если Вам нужно ввести какую-то переменную, то вводите ее на английском\nУдачи!\nЕсли у Вас возникнут проблемы с выполнением задания, напишите слово подсказка");
+            Console.WriteLine();
             var testVariants = test.GenerateTestVariants(numberOfTasks, numberOfVariants);
 
             if (testVariants != null && testVariants.Count > 0)
             {
                 Console.WriteLine("Контрольная работа:");
                 Console.WriteLine();
+                int correctAnswers = 0;
+                int wrongAnswers = 0;
+
                 for (int i = 0; i < testVariants.Count; i++)
                 {
                     Console.WriteLine($"Вариант {i + 1}:");
@@ -39,10 +45,39 @@ namespace Homework10
                         Console.WriteLine($"Вопрос {j + 1}: {task.Question}");
                         Console.Write("Ваш ответ: ");
                         string userAnswer = Console.ReadLine();
+
+                        if (userAnswer.ToLower() == "подсказка")
+                        {
+                        
+                            Console.WriteLine($"Подсказка: {task.Hint}");
+                            Console.Write("Ваш ответ: ");
+                            userAnswer = Console.ReadLine();
+                        }
+
                         bool isCorrect = CheckAnswer(task, userAnswer);
                         Console.WriteLine(isCorrect ? "Правильно!" : "Неправильно!");
                         Console.WriteLine();
+                        if (isCorrect)
+                            correctAnswers++;
+                        else
+                            wrongAnswers++;
                     }
+
+                    Console.WriteLine("Результаты по данному варианту:");
+                    Console.WriteLine($"Верных ответов: {correctAnswers}");
+                    Console.WriteLine($"Неверных ответов: {wrongAnswers}");
+                    Console.WriteLine();
+
+                    Console.WriteLine("Хотите продолжить решать следующий вариант? (Да/Нет)");
+                    string continueResponse = Console.ReadLine();
+
+                    if (continueResponse.Trim().ToLower() != "да")
+                    {
+                        Console.WriteLine("Вы решили завершить тест. До свидания!");
+                        return;
+                    }
+                    correctAnswers = 0;
+                    wrongAnswers = 0;
                 }
             }
             else
@@ -67,11 +102,13 @@ namespace Homework10
     {
         public string Question { get; set; }
         public string Answer { get; set; }
+        public string Hint { get; set; }
 
-        public Task(string question, string answer)
+        public Task(string question, string answer, string hint)
         {
             Question = question;
             Answer = answer;
+            Hint = hint;
         }
     }
 
@@ -141,12 +178,13 @@ namespace Homework10
                 {
                     string[] parts = line.Split('|');
 
-                    if (parts.Length == 2)
+                    if (parts.Length == 3)
                     {
                         string question = parts[0];
                         string answer = parts[1];
+                        string hint = parts[2];
 
-                        Task task = new Task(question, answer);
+                        Task task = new Task(question, answer,hint);
                         taskBank.Add(task);
                     }
                 }
@@ -155,18 +193,6 @@ namespace Homework10
             {
                 Console.WriteLine("Ошибка при чтении файла: " + e.Message);
             }
-        }
-
-        /// <summary>
-        /// Механизм подсказок
-        /// </summary>
-        /// <param name="task"></param>
-        /// <returns></returns>
-        public string GetHint(Task task)
-        {
-            if (task.Answer.ToLower()=="подсказка")
-                return task.Answer.Substring(0, 1);
-            return "";
         }
 
         /// <summary>
@@ -192,7 +218,7 @@ namespace Homework10
                             Task task = variant[j];
 
                             variantWriter.WriteLine($"Вопрос {j + 1}: {task.Question}");
-                            hintsWriter.WriteLine($"Подсказка к вопросу {j + 1}: {GetHint(task)}");
+                            hintsWriter.WriteLine($"Подсказка к вопросу {j + 1}: {task.Hint}");
                         }
                     }
                 }
