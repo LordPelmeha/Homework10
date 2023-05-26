@@ -28,9 +28,9 @@ namespace Homework10
             //b.MostRemoteFromCenter();
            //StartingTheProgram stp = new StartingTheProgram();
             //stp.StartKnowledgeCheck();
-            var x = new FormulaSimulator();
-            x.LoadFormulas("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\MemorizingTheory.txt");
-            x.Training();
+            //var x = new FormulaSimulator();
+            //x.LoadFormulas("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\MemorizingTheory.txt");
+            //x.Training();
         }
     }
 }
