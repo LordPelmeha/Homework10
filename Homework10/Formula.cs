@@ -6,7 +6,7 @@ namespace Homework10
     {
         public string _fname;
         public string _expr;
-        
+
 
         public Formula(string fname, string expr)
         {

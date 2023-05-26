@@ -12,14 +12,14 @@ namespace Homework10
     {
         static void Main()
         {
-            Console.WriteLine("Здравствуйте! Приветствую вас в симуляторе математики. Вам доступны следующие симуляторы:");
+            Console.WriteLine("Здравствуйте! Приветствую вас в симуляторе математики. Вам доступны следующие функции:");
             Console.WriteLine("1) Симулятор геометрии");
             Console.WriteLine("2) Проверка знаний");
             Console.WriteLine("3) Зазубривание теории");
             string ans = Console.ReadLine();
             while (ans.Length != 1 || !"12345678".Contains(ans))
             {
-                Console.WriteLine("Вы пытаетесь поломать симулятор! Фу таким быть. Введите один из номеров предикатов, которые были вам предложены:");
+                Console.WriteLine("Вы пытаетесь поломать симулятор! Фу таким быть. Введите один из номеров функциий, которые были вам предложены:");
                 ans = Console.ReadLine();
             }
             switch (ans)

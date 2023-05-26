@@ -49,7 +49,7 @@ namespace Homework10
 
                         if (userAnswer.ToLower() == "подсказка")
                         {
-                        
+
                             Console.WriteLine($"Подсказка: {task.Hint}");
                             Console.Write("Ваш ответ: ");
                             userAnswer = Console.ReadLine();
@@ -185,7 +185,7 @@ namespace Homework10
                         string answer = parts[1];
                         string hint = parts[2];
 
-                        Task task = new Task(question, answer,hint);
+                        Task task = new Task(question, answer, hint);
                         taskBank.Add(task);
                     }
                 }
