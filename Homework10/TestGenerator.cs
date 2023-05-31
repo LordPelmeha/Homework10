@@ -44,7 +44,7 @@ namespace Homework10
             {
                 List<Task> variant = new List<Task>();
                 int randomIndex;
-                while (variant.Count < numberOfTasks - numberOfTasksWithAnswers)
+                while (numberOfTasks - numberOfTasksWithAnswers > 0)
                 {
                     randomIndex = random.Next(taskBank.Count);
 
@@ -52,9 +52,10 @@ namespace Homework10
                     {
                         selectedIndices.Add(randomIndex);
                         variant.Add(taskBank[randomIndex]);
+                        numberOfTasks--;
                     }
                 }
-                while (variant.Count < numberOfTasksWithAnswers)
+                while (numberOfTasksWithAnswers > 0)
                 {
                     randomIndex = random.Next(taskWithAnswersBank.Count);
 
@@ -62,6 +63,7 @@ namespace Homework10
                     {
                         selectedIndicesForAns.Add(randomIndex);
                         variant.Add(taskWithAnswersBank[randomIndex]);
+                        numberOfTasksWithAnswers--;
                     }
                 }
                 testVariants.Add(Shuffle(variant));
@@ -105,7 +107,6 @@ namespace Homework10
         /// <summary>
         /// Загрузка банка заданий с ответами
         /// </summary>
-        /// <param name="filename"></param>
         public void LoadTasksWithAnswersFile(string filename)
         {
             try

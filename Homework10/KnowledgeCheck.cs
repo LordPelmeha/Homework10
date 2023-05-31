@@ -25,7 +25,7 @@ namespace Homework10
             int numberOfTasksWithAnswers = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Сколько вариантов Вы хотите сгенерировать?");
             int numberOfVariants = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Вводите без пробелов, и если Вам нужно ввести какую-то переменную, то вводите ее на английском\nУдачи!\nЕсли у Вас возникнут проблемы с выполнением задания, напишите слово подсказка");
+            Console.WriteLine("Вводите без пробелов, и если Вам нужно ввести какую-то переменную, то вводите ее на английском\nУдачи!\nЕсли у Вас возникнут проблемы с выполнением задания, напишите слово подсказка. В заданиях с вариантами овтетов вам будет показан неправильный ответ.");
             Console.WriteLine();
             var testVariants = test.GenerateTestVariants(numberOfTasks, numberOfTasksWithAnswers, numberOfVariants);
             test.SaveVariantsToFile(testVariants);
