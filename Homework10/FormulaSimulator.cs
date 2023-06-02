@@ -13,118 +13,169 @@ namespace Homework10
     public class FormulaSimulator
     {
         public Dictionary<string, List<Formula>> _formulabank { get; set; }
+        public Dictionary<string, List<Theorem>> _theorembank { get; set; }
         public int _rightcnt;
         public int _wrongcnt;
         public int _traincnt;
 
-        public FormulaSimulator() 
+        public FormulaSimulator()
         {
             _formulabank = new Dictionary<string, List<Formula>>();
+            _theorembank = new Dictionary<string, List<Theorem>>();
             _rightcnt = 0;
             _wrongcnt = 0;
         }
 
+        public void StartTraining()
+        {
+            try
+            {
+                LoadFormulas("formulas.txt");
+                LoadTheorems("theorems.txt");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при загрузке формул и теорем: {ex.Message}");
+                return;
+            }
+
+            Console.WriteLine("Выберите режим: 1 - Тренировка, 2 - Доказательство");
+            var mode = Console.ReadLine();
+            while (mode != "1" && mode != "2")
+            {
+                Console.WriteLine("Неверный режим. Повторите выбор: 1 - Тренировка, 2 - Доказательство");
+                mode = Console.ReadLine();
+            }
+
+            if (mode == "1")
+            {
+                Training();
+            }
+            else if (mode == "2")
+            {
+                TheoremProving();
+            }
+        }
         public void LoadFormulas(string filename)
         {
-            
             var formulas = File.ReadAllLines(filename);
-            var bank = new Dictionary<string, List<Formula>>();
+            var formulabank = new Dictionary<string, List<Formula>>();
             foreach (var formula in formulas)
             {
-                var split = formula.Split(',');
+                var split = formula.Split('|');
                 if (split.Length != 3 || split[0] == null || split[1] == null || split[2] == null)
-                    throw new ArgumentException("Неверный формат введённых формул в файле, измените формулу по образцу: Тема, Название формулы, формула");
-                if (!bank.ContainsKey(split[0]))
-                    bank.Add(split[0], new List<Formula>() { new Formula(split[1], split[2]) });
-                bank[split[0]].Add(new Formula(split[1], split[2]));
-
+                    throw new ArgumentException("Неверный формат введённых формул в файле, измените формулу по образцу: Тема|Название формулы|формула");
+                if (!formulabank.ContainsKey(split[0]))
+                    formulabank.Add(split[0], new List<Formula>() { new Formula(split[1], split[2]) });
+                formulabank[split[0]].Add(new Formula(split[1], split[2]));
             }
-            _formulabank= bank;
+            _formulabank = formulabank;
         }
 
-        public async void Training()
+        public void LoadTheorems(string filename)
         {
-            anothertheme:
-            var statthemes = new Dictionary<string, int[]>();
-            int curthemewrongans = 0;
-            int curthemerightans = 0;
-            int tk = 1;
-            Console.WriteLine("Здравствуйте, вас приветствует тренажер по запоминанию формул!\nВыберите 1 из предоставленных тем:") ;
-            foreach (var themes in _formulabank)
+            var theorems = File.ReadAllLines(filename);
+            var bank = new Dictionary<string, List<Theorem>>();
+
+            foreach (var theorem in theorems)
             {
-                Console.WriteLine($"{tk}){themes.Key}");
-                tk++;
+                var split = theorem.Split('|');
+                if (split.Length != 5 || split[0] == null || split[1] == null || split[2] == null || split[3] == null || split[4] == null)
+                    throw new ArgumentException("Неверный формат введённых теорем в файле, измените теорему по образцу: Тема|Название теоремы|условие|заключение|доказательство");
+
+                if (!bank.ContainsKey(split[0]))
+                    bank.Add(split[0], new List<Theorem>() { new Theorem(split[1], split[2], split[3], split[4]) });
+                else
+                    bank[split[0]].Add(new Theorem(split[1], split[2], split[3], split[4]));
             }
-            
-            var input = Console.ReadLine();
-            if (!_formulabank.ContainsKey(input))
+
+            _theorembank = bank;
+        }
+        public void Training()
+        {
+            Console.WriteLine("Выберите тему:");
+            foreach (var theme in _formulabank)
             {
-                Console.WriteLine("Такой темы нет, выберите 1 тему из предоставленых либо корректно(точь-в-точь) введите название темы");
+                Console.WriteLine(theme.Key);
+            }
+
+            var input = Console.ReadLine();
+            while (!_formulabank.ContainsKey(input))
+            {
+                Console.WriteLine("Тема не найдена. Повторите ввод:");
                 input = Console.ReadLine();
             }
 
-            var fk = _formulabank[input].Count;
             var formulas = _formulabank[input];
-            var r = new Random();
-            Console.WriteLine($"Для изучения доступно {fk} формул, также обозначим условности ввода формул." +
-                $"\nБудьте аккуратнее с форматом ввода формулы, важен порядок ввода переменных, пробелы и формат." +
-                $"\nСинус будет выглядеть как: sinx,возведение в степень n: x^n,умножение: x*y,деление: x/y." +
-                $"\nПомимо этих обозначений в некоторых формулах также присутствуют геометрические обозначения такие как S-площадь; a,b,c-различные стороны геометрических фигур; d-диагональ;h-высота;r-радиус вписанной окружности ;p-полупериметр;" +
-                $"\nТакже во всех формулах между функцией, коротким выражением которое нужно разложить и т.п. и непосредственно самим выражением или разложением ставиться = при том с пробелами с обоих сторон)" +
-                $"\nЕсли вы пожелаете выбрать жругую тему для заучивания введите вместо формулы \"Выбор темы\", если пожелаете выйти из программы введите \"Выход\"");
-            while (true)
+
+            Console.WriteLine($"Тренируемся на теме: {input}");
+
+            foreach (var formula in formulas)
             {
-                var tf = r.Next(0,fk);
-                if (!statthemes.Keys.Contains(formulas.ElementAt(tf)._fname))
-                    statthemes.Add(formulas.ElementAt(tf)._fname,new int[2] {0,0});
-                Console.WriteLine($"{formulas.ElementAt(tf)._fname}." +
-                $"\nЗапишите формулу соответствующую этому названию на клавиатуре и после нажмите Enter для того,чтобы верная формула отобразилась в консоли");    
-                var formulaorexit = Console.ReadLine() ;
-                Console.WriteLine($"Формула выглядит: {formulas.ElementAt(tf)._expr}");
-                if (formulaorexit.Equals(formulas.ElementAt(tf)._expr))
+                Console.WriteLine($"Формула: {formula._fname}");
+                Console.WriteLine($"Введите формулу:");
+
+                var userinput = Console.ReadLine();
+                if (userinput == formula._expr)
                 {
-                    Console.WriteLine("Верно, переёдем к следующей формуле!");
+                    Console.WriteLine("Правильно!");
                     _rightcnt++;
-                    statthemes[formulas.ElementAt(tf)._fname][0]++;
-                    curthemerightans++;
                 }
                 else
                 {
-                    Console.WriteLine("Неверно(, переёдем к следующей формуле.");
+                    Console.WriteLine("Неправильно!");
                     _wrongcnt++;
-                    statthemes[formulas.ElementAt(tf)._fname][1]++;
-                    curthemewrongans++;
                 }
-                if (formulaorexit.Equals("Выбор темы"))
-                {
-                    File.AppendAllText("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\statistics.txt", $"{input}\n", Encoding.Default);
-                    foreach (var item in statthemes)
-                        File.AppendAllText("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\statistics.txt", $"{item.Key} {item.Value[0]} {item.Value[1]}\n", Encoding.Default);
-                    Console.WriteLine($"Сию минуту, на данный момент повторяя формулы на тему {input} вы допустили {curthemewrongans} и верно вспомнили тему {curthemerightans} раз");
-                    goto anothertheme;
-                }
-                    
-                if (formulaorexit.Equals("Выход"))
-                {
-                    var strings = File.ReadAllLines("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\statistics.txt");
-                    if (File.Exists("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\statistics.txt") && !strings.Contains("Тренировка 1"))
-                        File.AppendAllText("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\statistics.txt","Трениновка 1", Encoding.Default);
-                    else if (File.Exists("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\statistics.txt") && strings.Last().Substring(0, 10) == "Тренировка")
-                    {
-                        var treinnum = strings.Last().Substring(strings.Last().Length - 1, 1);
-                        File.AppendAllText("C:\\Users\\Тая\\source\\repos\\LordPelmeha\\Homework10\\Homework10\\statistics.txt", $"Трениновка {treinnum}",Encoding.Default);
-                    }
-                        Console.WriteLine($"Благодарим за использование тренажёра, вы допустили {_wrongcnt} ошибок и верно вспомнили формулы {_rightcnt} раз, удачи в использовании выученных формул!");
-                    break;
-                }
-
-
+                _traincnt++;
             }
-            
+
+            Console.WriteLine($"Тренировка завершена. Правильных ответов: {_rightcnt}, Неправильных ответов: {_wrongcnt}, Всего вопросов: {_traincnt}");
         }
 
-       
+        public void TheoremProving()
+        {
+            Console.WriteLine("Выберите тему:");
+            foreach (var theme in _theorembank)
+            {
+                Console.WriteLine(theme.Key);
+            }
+
+            var input = Console.ReadLine();
+            while (!_theorembank.ContainsKey(input))
+            {
+                Console.WriteLine("Тема не найдена. Повторите ввод:");
+                input = Console.ReadLine();
+            }
+
+            var theorems = _theorembank[input];
+
+            Console.WriteLine($"Доказываем теоремы на теме: {input}");
+
+            foreach (var theorem in theorems)
+            {
+                Console.WriteLine($"Теорема: {theorem._tname}");
+                Console.WriteLine($"Условие: {theorem._condition}");
+                Console.WriteLine($"Заключение:");
+                Console.WriteLine($"Доказательство:");
+
+                Console.WriteLine("Введите заключение или доказательство:");
+
+                var userinput = Console.ReadLine();
+                if (userinput == theorem._conclusion || userinput == theorem._proof)
+                {
+                    Console.WriteLine("Правильно!");
+                    _rightcnt++;
+                }
+                else
+                {
+                    Console.WriteLine("Неправильно!");
+                    _wrongcnt++;
+                }
+                _traincnt++;
+            }
+
+            Console.WriteLine($"Доказательство завершено. Правильных ответов: {_rightcnt}, Неправильных ответов: {_wrongcnt}, Всего вопросов: {_traincnt}");
+        }
     }
 
-    
 }
