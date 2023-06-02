@@ -17,9 +17,10 @@ namespace Homework10
         private Dot b { get; set; }
         private Dot c { get; set; }
         private Dot d { get; set; }
+
         /// <summary>
         /// Проверяет, является ли данный чётырёхугольник прямоугольником
-        /// </summary>
+        /// </summary> 
         private bool IsRectangele()
         {
             // Углы между векторами в радианах
@@ -35,6 +36,7 @@ namespace Homework10
                 return true;
             return false;
         }
+
         /// <summary>
         /// Получает вектора четырёхугольника
         /// </summary>
@@ -46,21 +48,23 @@ namespace Homework10
             d = new Dot(BottomLeft.X - BottomRight.X, BottomLeft.Y - BottomRight.Y);
             //Console.WriteLine($"a: {a.X} {a.Y}, b: {b.X} {b.Y}, c: {c.X} {c.Y}, d: {d.X} {d.Y}");
         }
+
         /// <summary>
         /// Находит площадь четырёхугольника
         /// </summary>
         public double Square() => Math.Sqrt((a.X * a.X + a.Y * a.Y) * (b.X * b.X + b.Y * b.Y));
+
         /// <summary>
         /// Находит периметр четырёхугольника
         /// </summary>
         public double Perimeter() => (Math.Sqrt(a.X * a.X + a.Y * a.Y) + Math.Sqrt(b.X * b.X + b.Y * b.Y)) * 2;
+
         /// <summary>
-        /// Находит дистанцию от центра координат до ближайшего угла четырёхугольника
+        /// Находит расстояние от центра фигуры до начала координат
         /// </summary>
-        public double DistanceToCenter() => Math.Sqrt(
-            Math.Min(BottomLeft.X * BottomLeft.X + BottomLeft.Y * BottomLeft.Y,
-                Math.Min(UpperLeft.X * UpperLeft.X + UpperLeft.Y * UpperLeft.Y,
-                    Math.Min(UpperRight.X * UpperRight.X + UpperRight.Y * UpperRight.Y, BottomRight.X * BottomRight.X + BottomRight.Y * BottomRight.Y))));
+        /// <returns></returns>
+        public double DistanceToCenter() => Math.Sqrt(Math.Pow(0 - Center.X, 2) + Math.Pow(0 - Center.Y, 2));
+
         /// <summary>
         /// Поворачивает четырёхугольник на заданный угол (в градусах)
         /// </summary>
@@ -87,6 +91,7 @@ namespace Homework10
                 (NotBottomRight.X - Center.X) * sin + (NotBottomRight.Y - Center.Y) * cos + Center.Y);
             GetVectors();
         }
+
         /// <summary>
         /// Двигает четырёхугольник по оси X и оси Y на заданные значения
         /// </summary>
@@ -99,6 +104,7 @@ namespace Homework10
             Center = new Dot((UpperLeft.X + BottomRight.X) / 2, (UpperLeft.Y + BottomRight.Y) / 2);
             GetVectors();
         }
+
         /// <summary>
         /// Увеличение высоты и ширины прямоугольника на заданные коэффициенты
         /// </summary>
